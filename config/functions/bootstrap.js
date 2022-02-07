@@ -1,15 +1,13 @@
 'use strict';
 
-import { WebSocketServer } from "ws";
+/**
+ * An asynchronous bootstrap function that runs before
+ * your application gets started.
+ *
+ * This gives you an opportunity to set up your data model,
+ * run jobs, or perform some special logic.
+ *
+ * See more details here: https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#bootstrap
+ */
 
- module.exports = ({ env }) => {
-    const wss = new WebSocketServer({server: strapi.server})
-
-    wss.on('connection', function connection(ws) {
-        ws.on('message', (data) => {
-            const string = data.toString();
-            const json = JSON.parse(string);
-            console.log(json)
-        })
-    })
-  };
+module.exports = () => {};
