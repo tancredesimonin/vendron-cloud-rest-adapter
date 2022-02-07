@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/machines/:id/status",
+      "handler": "machines.getStatus",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
