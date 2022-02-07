@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transactions",
+  "info": {
+    "name": "Transactions",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "transactions"
+    },
+    "machine": {
+      "model": "machines"
+    },
+    "history": {
+      "via": "transaction",
+      "collection": "transaction-events"
+    }
+  }
+}

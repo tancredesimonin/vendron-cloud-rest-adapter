@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "machines",
+  "info": {
+    "name": "Machines"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vendorId": {
+      "type": "string"
+    }
+  }
+}

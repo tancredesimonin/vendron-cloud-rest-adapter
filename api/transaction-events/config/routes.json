@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/transaction-events",
+      "handler": "transaction-events.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/transaction-events/count",
+      "handler": "transaction-events.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/transaction-events/:id",
+      "handler": "transaction-events.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/transaction-events",
+      "handler": "transaction-events.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/transaction-events/:id",
+      "handler": "transaction-events.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/transaction-events/:id",
+      "handler": "transaction-events.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

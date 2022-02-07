@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "description": "A Strapi application",
   "scripts": {
+    "gen:sdk:tools": "swagger-typescript-api --axios --route-types -p ./extensions/documentation/documentation/1.0.0/full_documentation.json -o ../vendron-cloud-ws-hook/server -n api.ts",
+    "sdk": "npm run gen:sdk:tools",
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
@@ -25,14 +27,14 @@
     "strapi-utils": "3.6.8"
   },
   "author": {
-    "name": "A Strapi developer"
-  },
-  "strapi": {
-    "uuid": "89062a66-fd3a-4854-8d76-c6873ee142ac"
+    "name": "Tancrede Simonin"
   },
   "engines": {
-    "node": ">=10.16.0 <=14.x.x",
+    "node": "14.x.x",
     "npm": "^6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "swagger-typescript-api": "^9.3.1"
+  }
 }
