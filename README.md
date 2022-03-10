@@ -24,6 +24,9 @@ This adapter aims at providing an API REST interface to the Vendron Smart Fridge
 
 - 1 push deployment on scalingo or heroku (not tested on heroku - you may need to configure a procfile before deployment)
 
+## First install or deployment
+
+see [Installation](/INSTALLATION.md) for the details on setting up your instance - either locally or hosted - for the first time
 ## Usage
 
 see [Usage](/USAGE.md) for the details on using the API endpoints

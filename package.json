@@ -2,10 +2,8 @@
   "name": "vendron-cloud-rest-adapter",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "Vendron Cloud Websocket to Rest API Adapter",
   "scripts": {
-    "gen:sdk:tools": "swagger-typescript-api --axios --route-types -p ./extensions/documentation/documentation/1.0.0/full_documentation.json -o ../vendron-cloud-ws-hook/server -n api.ts",
-    "sdk": "npm run gen:sdk:tools",
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
@@ -15,6 +13,7 @@
   "dependencies": {
     "axios": "^0.26.1",
     "knex": "0.21.18",
+    "pg-connection-string": "^2.5.0",
     "sqlite3": "5.0.0",
     "strapi": "3.6.8",
     "strapi-admin": "3.6.8",
@@ -37,8 +36,5 @@
     "node": "14.x.x",
     "npm": "^6.0.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "swagger-typescript-api": "^9.3.1"
-  }
+  "license": "MIT"
 }
