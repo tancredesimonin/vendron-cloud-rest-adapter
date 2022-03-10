@@ -320,7 +320,6 @@ var self = module.exports = {
     const validTransactionData = await strapi.entityValidator.validateEntityUpdate(
       strapi.models.transactions,
       {
-        ...transaction,
         status: success ? 'success' : 'error',
         products: success ? response.command_data.json_data.data.transaction_product : ''
       },

@@ -127,7 +127,6 @@ module.exports = {
     const user = sanitizeEntity(userData, { model: strapi.plugins['users-permissions'].models.user });
     const transactionData = await strapi.services.transactions.findOne({id: data.transaction.id });
     const transaction = sanitizeEntity(transactionData, { model: strapi.models.transactions });
-
     // handle no transaction ?
 
      /** handling communication with Vendron Smart fridge Websocket API */
