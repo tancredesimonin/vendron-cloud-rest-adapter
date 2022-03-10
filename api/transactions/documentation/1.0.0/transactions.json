@@ -565,6 +565,9 @@
                   "type": "string"
                 }
               },
+              "customerId": {
+                "type": "string"
+              },
               "created_by": {
                 "type": "string"
               },
@@ -582,6 +585,9 @@
                 "type": "string"
               },
               "vendorId": {
+                "type": "string"
+              },
+              "label": {
                 "type": "string"
               },
               "created_by": {
@@ -611,6 +617,28 @@
                 "machine": {
                   "type": "string"
                 },
+                "label": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "success",
+                    "error"
+                  ]
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                },
                 "created_by": {
                   "type": "string"
                 },
@@ -619,6 +647,18 @@
                 }
               }
             }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "purchasing",
+              "pending",
+              "success",
+              "error"
+            ]
+          },
+          "products": {
+            "type": "object"
           }
         }
       },
@@ -635,6 +675,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "purchasing",
+              "pending",
+              "success",
+              "error"
+            ]
+          },
+          "products": {
+            "type": "object"
           },
           "created_by": {
             "type": "string"

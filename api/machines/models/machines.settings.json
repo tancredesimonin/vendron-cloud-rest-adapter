@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "machines",
   "info": {
-    "name": "Machines"
+    "name": "Machines",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -12,6 +13,9 @@
   "pluginOptions": {},
   "attributes": {
     "vendorId": {
+      "type": "string"
+    },
+    "label": {
       "type": "string"
     }
   }

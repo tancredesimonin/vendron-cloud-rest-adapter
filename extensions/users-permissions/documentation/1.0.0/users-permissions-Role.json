@@ -567,6 +567,9 @@
                     "type": "string"
                   }
                 },
+                "customerId": {
+                  "type": "string"
+                },
                 "created_by": {
                   "type": "string"
                 },

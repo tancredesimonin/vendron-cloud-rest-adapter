@@ -1273,6 +1273,18 @@
                     "type": "string"
                   }
                 },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "purchasing",
+                    "pending",
+                    "success",
+                    "error"
+                  ]
+                },
+                "products": {
+                  "type": "object"
+                },
                 "created_by": {
                   "type": "string"
                 },
@@ -1281,6 +1293,9 @@
                 }
               }
             }
+          },
+          "customerId": {
+            "type": "string"
           }
         }
       },
@@ -1328,6 +1343,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "customerId": {
+            "type": "string"
           },
           "created_by": {
             "type": "string"

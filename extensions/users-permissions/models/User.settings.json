@@ -62,6 +62,9 @@
     "transactions": {
       "via": "user",
       "collection": "transactions"
+    },
+    "customerId": {
+      "type": "string"
     }
   }
 }

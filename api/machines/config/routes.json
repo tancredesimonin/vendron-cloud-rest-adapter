@@ -49,9 +49,17 @@
       }
     },
     {
-      "method": "GET",
+      "method": "POST",
       "path": "/machines/:id/status",
-      "handler": "machines.getStatus",
+      "handler": "machines.getStatusAsUser",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/machines/:id/open",
+      "handler": "machines.openDoor",
       "config": {
         "policies": []
       }

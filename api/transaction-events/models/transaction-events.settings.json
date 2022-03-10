@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "transaction_events",
   "info": {
-    "name": "TransactionEvents"
+    "name": "TransactionEvents",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -12,8 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "transaction": {
-      "model": "transactions",
-      "via": "history"
+      "via": "history",
+      "model": "transactions"
     },
     "user": {
       "plugin": "users-permissions",
@@ -21,6 +22,28 @@
     },
     "machine": {
       "model": "machines"
+    },
+    "label": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "success",
+        "error"
+      ]
+    },
+    "message": {
+      "type": "string"
+    },
+    "data": {
+      "type": "json"
     }
   }
 }

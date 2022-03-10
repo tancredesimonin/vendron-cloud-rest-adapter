@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "02/07/2022 4:01:25 PM"
+    "x-generation-date": "03/10/2022 12:58:08 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -557,9 +557,9 @@
       }
     },
     "/machines/{id}/status": {
-      "get": {
+      "post": {
         "deprecated": false,
-        "description": "",
+        "description": "Create a new machines record",
         "responses": {
           "200": {
             "description": "Retrieve machines document(s)",
@@ -610,18 +610,92 @@
         "tags": [
           "Machines"
         ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "deprecated": false,
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "foo": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
-        ]
+        }
+      }
+    },
+    "/machines/{id}/open": {
+      "post": {
+        "deprecated": false,
+        "description": "Create a new machines record",
+        "responses": {
+          "200": {
+            "description": "Retrieve machines document(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "foo": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Machines"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "foo": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/transaction-events": {
@@ -3898,12 +3972,18 @@
           },
           "vendorId": {
             "type": "string"
+          },
+          "label": {
+            "type": "string"
           }
         }
       },
       "NewMachines": {
         "properties": {
           "vendorId": {
+            "type": "string"
+          },
+          "label": {
             "type": "string"
           },
           "created_by": {
@@ -3941,6 +4021,18 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "purchasing",
+                  "pending",
+                  "success",
+                  "error"
+                ]
+              },
+              "products": {
+                "type": "object"
               },
               "created_by": {
                 "type": "string"
@@ -3993,6 +4085,9 @@
                   "type": "string"
                 }
               },
+              "customerId": {
+                "type": "string"
+              },
               "created_by": {
                 "type": "string"
               },
@@ -4012,6 +4107,9 @@
               "vendorId": {
                 "type": "string"
               },
+              "label": {
+                "type": "string"
+              },
               "created_by": {
                 "type": "string"
               },
@@ -4019,6 +4117,28 @@
                 "type": "string"
               }
             }
+          },
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "error"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
           }
         }
       },
@@ -4032,6 +4152,28 @@
           },
           "machine": {
             "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "error"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
           },
           "created_by": {
             "type": "string"
@@ -4092,6 +4234,9 @@
                   "type": "string"
                 }
               },
+              "customerId": {
+                "type": "string"
+              },
               "created_by": {
                 "type": "string"
               },
@@ -4109,6 +4254,9 @@
                 "type": "string"
               },
               "vendorId": {
+                "type": "string"
+              },
+              "label": {
                 "type": "string"
               },
               "created_by": {
@@ -4138,6 +4286,28 @@
                 "machine": {
                   "type": "string"
                 },
+                "label": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "success",
+                    "error"
+                  ]
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                },
                 "created_by": {
                   "type": "string"
                 },
@@ -4146,6 +4316,18 @@
                 }
               }
             }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "purchasing",
+              "pending",
+              "success",
+              "error"
+            ]
+          },
+          "products": {
+            "type": "object"
           }
         }
       },
@@ -4162,6 +4344,18 @@
             "items": {
               "type": "string"
             }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "purchasing",
+              "pending",
+              "success",
+              "error"
+            ]
+          },
+          "products": {
+            "type": "object"
           },
           "created_by": {
             "type": "string"
@@ -4275,6 +4469,9 @@
                   "items": {
                     "type": "string"
                   }
+                },
+                "customerId": {
+                  "type": "string"
                 },
                 "created_by": {
                   "type": "string"
@@ -4411,6 +4608,18 @@
                     "type": "string"
                   }
                 },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "purchasing",
+                    "pending",
+                    "success",
+                    "error"
+                  ]
+                },
+                "products": {
+                  "type": "object"
+                },
                 "created_by": {
                   "type": "string"
                 },
@@ -4419,6 +4628,9 @@
                 }
               }
             }
+          },
+          "customerId": {
+            "type": "string"
           }
         }
       },
@@ -4466,6 +4678,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "customerId": {
+            "type": "string"
           },
           "created_by": {
             "type": "string"

@@ -9,9 +9,11 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "dev": "npm run develop"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "knex": "0.21.18",
     "sqlite3": "5.0.0",
     "strapi": "3.6.8",
@@ -25,6 +27,7 @@
     "strapi-plugin-upload": "3.6.8",
     "strapi-plugin-users-permissions": "3.6.8",
     "strapi-utils": "3.6.8",
+    "websocket-as-promised": "^2.0.1",
     "ws": "^8.4.2"
   },
   "author": {

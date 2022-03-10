@@ -13,9 +13,9 @@
   "pluginOptions": {},
   "attributes": {
     "user": {
+      "via": "transactions",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "transactions"
+      "model": "user"
     },
     "machine": {
       "model": "machines"
@@ -23,6 +23,18 @@
     "history": {
       "via": "transaction",
       "collection": "transaction-events"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "purchasing",
+        "pending",
+        "success",
+        "error"
+      ]
+    },
+    "products": {
+      "type": "json"
     }
   }
 }
