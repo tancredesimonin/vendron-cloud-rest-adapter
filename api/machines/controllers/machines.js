@@ -45,9 +45,10 @@ module.exports = {
       extractRequestId: (data) => data && data.ref,
     });
     try {
+      wsp.onOpen.addListener(() => strapi.log.info('Connection opened'));
       await wsp.open();
-      wsp.onClose.addListener(() => strapi.log.info(`Connections closed`));
-      wsp.onError.addListener((event) => strapi.log.error(event));
+      wsp.onClose.addListener((event) => strapi.log.info(`Connections closed: ${event.reason}`));
+      wsp.onError.addListener((event) => strapi.log.error('ws error:', event));
 
       /** sends event & wait for the technical acknowledgment response */
       const acknowledgment = await wsp.sendRequest({
@@ -73,7 +74,7 @@ module.exports = {
 
     } catch (error) {
       strapi.log.error(error);
-      strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+      strapi.services.utils.sendErrorToSlack(error, machine, user);
       ctx.send({
         ok: false,
         error
