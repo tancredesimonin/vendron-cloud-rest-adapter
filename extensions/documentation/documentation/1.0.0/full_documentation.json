@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "03/10/2022 12:58:08 PM"
+    "x-generation-date": "03/16/2022 1:22:42 PM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -24,11 +24,11 @@
   "servers": [
     {
       "url": "http://localhost:1337",
-      "description": "Development server"
+      "description": "Local server"
     },
     {
-      "url": "YOUR_STAGING_SERVER",
-      "description": "Staging server"
+      "url": "https://smart-fridge-backend.osc-fr1.scalingo.io",
+      "description": "Production server"
     },
     {
       "url": "YOUR_PRODUCTION_SERVER",
