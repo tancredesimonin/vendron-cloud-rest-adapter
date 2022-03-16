@@ -36,7 +36,7 @@ module.exports = {
 
      /** handling communication with Vendron Smart fridge Websocket API */
     const wsp = new WebSocketAsPromised(process.env.VENDRON_WS_BASE_URL, {
-      createWebSocket: (url) => new WebSocket(url),
+      createWebSocket: (url) => new WebSocket(url, {rejectUnauthorized: false}),
       extractMessageData: (event) => event,
       packMessage: (data) => JSON.stringify(data),
       unpackMessage: (data) => JSON.parse(data),
@@ -47,7 +47,8 @@ module.exports = {
     try {
       wsp.onOpen.addListener(() => strapi.log.info('Connection opened'));
       await wsp.open();
-      wsp.onMessage.addListener(data => strapi.log.debug(`msg: ${data}`));
+      wsp.onMessage.addListener(data => strapi.log.info(`msg: ${data}`));
+      wsp.onSend.addListener(data => strapi.log.info(`sending: ${data}`));
       wsp.onClose.addListener((event) => strapi.log.info(`Connections closed: ${event.reason}`));
       wsp.onError.addListener((event) => strapi.log.error('ws error:', event));
 
@@ -58,12 +59,11 @@ module.exports = {
           public_api_token: process.env.VENDRON_API_KEY,
           machine_uid: machine.vendorId,
         },
+        ref: `user:${user.id.toString()}-${Date.now().toString()}`
       });
 
       /** sends event & wait for the business logic response */
       const vendronResponse = await wsp.waitUnpackedMessage(data => data && data.command === "check_machine_state_success", { timeout: process.env.VENDRON_WS_TIMEOUT_MS } );
-      // 
-      strapi.log.info('vendronResponse:', vendronResponse)
 
 
       /** handle checkstate event:
@@ -161,6 +161,7 @@ module.exports = {
           total_amount: data.authorizedAmount ? String(data.authorizedAmount) : process.env.DEFAULT_AUTHORIZED_AMOUNT,
           payment_detail: `user:${user.id}_transaction:${transaction.id}`
         },
+        ref: `user:${user.id.toString()}-${Date.now().toString()}`
       });
 
       /** sends event & wait for the business logic response */
@@ -177,7 +178,7 @@ module.exports = {
       const requestBegunEvent = await strapi.services.utils.handleRequestBegun(requestBegunResponse, machine, user, transaction);
 
       /** sends event & wait for the technical acknowledgment response */
-      wsp.sendRequest({
+      wsp.sendPacked({
         command: "smart_fridge_door_open",
         command_data: {
           public_api_token: process.env.VENDRON_API_KEY,
@@ -188,6 +189,7 @@ module.exports = {
           payment_detail: `user:${user.id}_transaction:${transaction.id}`,
           session: requestBegunResponse.command_data.json_data.data.session
         },
+        ref: `user:${user.id.toString()}-${Date.now().toString()}`
       });
 
       /** sends event & wait for the business logic response */
