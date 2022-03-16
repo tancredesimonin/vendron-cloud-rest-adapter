@@ -47,11 +47,12 @@ module.exports = {
     try {
       wsp.onOpen.addListener(() => strapi.log.info('Connection opened'));
       await wsp.open();
+      wsp.onMessage.addListener(data => strapi.log.debug(`msg: ${data}`));
       wsp.onClose.addListener((event) => strapi.log.info(`Connections closed: ${event.reason}`));
       wsp.onError.addListener((event) => strapi.log.error('ws error:', event));
 
-      /** sends event & wait for the technical acknowledgment response */
-      const acknowledgment = await wsp.sendRequest({
+      /** sends event */
+       wsp.sendPacked({
         command: "check_machine_state",
         command_data: {
           public_api_token: process.env.VENDRON_API_KEY,
@@ -60,10 +61,10 @@ module.exports = {
       });
 
       /** sends event & wait for the business logic response */
-      const vendronResponse = await wsp.waitUnpackedMessage(
-        (data) => data && data.ref === acknowledgment.ref,
-        { timeout: process.env.VENDRON_WS_TIMEOUT_MS }
-      );
+      const vendronResponse = await wsp.waitUnpackedMessage(data => data && data.command === "check_machine_state_success", { timeout: process.env.VENDRON_WS_TIMEOUT_MS } );
+      // 
+      strapi.log.info('vendronResponse:', vendronResponse)
+
 
       /** handle checkstate event:
        * - create a new transaction
@@ -74,7 +75,9 @@ module.exports = {
 
     } catch (error) {
       strapi.log.error(error);
-      strapi.services.utils.sendErrorToSlack(error, machine, user);
+      if (process.env.SLACK_ENABLE === true) {
+        strapi.services.utils.sendErrorToSlack(error, machine, user);
+      }
       ctx.send({
         ok: false,
         error
@@ -141,12 +144,14 @@ module.exports = {
       extractRequestId: (data) => data && data.ref,
     });
     try {
+      wsp.onOpen.addListener(() => strapi.log.info('Connection opened'));
       await wsp.open();
-      wsp.onClose.addListener(() => strapi.log.info(`Connections closed`));
-      wsp.onError.addListener((event) => strapi.log.error(event));
+      wsp.onMessage.addListener(data => strapi.log.debug(`msg: ${data}`));
+      wsp.onClose.addListener((event) => strapi.log.info(`Connections closed: ${event.reason}`));
+      wsp.onError.addListener((event) => strapi.log.error('ws error:', event));
 
-      /** sends request event & wait for the technical acknowledgment response */
-      await wsp.sendRequest({
+      /** sends request event */
+      wsp.sendPacked({
         command: "smart_fridge_request",
         command_data: {
           public_api_token: process.env.VENDRON_API_KEY,
@@ -172,7 +177,7 @@ module.exports = {
       const requestBegunEvent = await strapi.services.utils.handleRequestBegun(requestBegunResponse, machine, user, transaction);
 
       /** sends event & wait for the technical acknowledgment response */
-      await wsp.sendRequest({
+      wsp.sendRequest({
         command: "smart_fridge_door_open",
         command_data: {
           public_api_token: process.env.VENDRON_API_KEY,
@@ -246,7 +251,9 @@ module.exports = {
 
     } catch (error) {
       strapi.log.error(error);
-      strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+      if (process.env.SLACK_ENABLE === true) {
+        strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+      }
       ctx.send({
         ok: false,
         error
