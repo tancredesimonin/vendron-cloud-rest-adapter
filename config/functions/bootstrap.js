@@ -1,5 +1,6 @@
 'use strict';
 const fs = require('fs');
+const path = require('path');
 /**
  * An asynchronous bootstrap function that runs before
  * your application gets started.
@@ -55,7 +56,7 @@ module.exports = () => {
 
     const doc = JSON.stringify({...swaggerDefault, servers: servers });
 
-    fs.writeFile('./extensions/documentation/config/settings.json', doc, 'utf8', (err) => {
+    fs.writeFile(path.resolve(__dirname, '../../extensions/documentation/config/settings.json'), doc, 'utf8', (err) => {
 
         if (err) {
             console.log(`Error writing file: ${err}`);
