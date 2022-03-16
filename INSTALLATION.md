@@ -9,6 +9,16 @@
 
 1. setup your environment variables (check the `.env.example` file with all required configuration variables)
 
+## Slack app
+
+The built-in slack logger will send error messages to the channel of your choice.
+you can enable or disable it through the `SLACK_ENABLE` variable (set to `true` or `false`)
+
+If you enable it you must first create a slack app in your slack workspace and retrieve the notification url to set the `SLACK_WEBHOOK_URL` env.
+
+1. go to [slack api dashboard](https://api.slack.com/apps) and select 'Create New App'
+2. follow the instructions
+3. you'll just need the basic informations setup and activate incoming webhooks in > Feature > Incoming Webhooks
 
 ## If you use scalingo or ssh deployment
 
