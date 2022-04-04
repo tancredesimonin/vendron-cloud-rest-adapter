@@ -159,7 +159,8 @@ module.exports = {
           payment_name: data.paymentName ? data.paymentName : process.env.DEFAULT_PAYMENT_NAME,
           currency: "EUR",
           total_amount: data.authorizedAmount ? String(data.authorizedAmount) : process.env.DEFAULT_AUTHORIZED_AMOUNT,
-          payment_detail: `user:${user.id}_transaction:${transaction.id}`
+          payment_detail: `user:${user.id}_transaction:${transaction.id}`,
+          notification_url: 'https://8db8-2a01-e0a-200-ee00-9cf2-d647-9019-b387.ngrok.io'
         },
         ref: `user:${user.id.toString()}-${Date.now().toString()}`
       });
@@ -235,16 +236,23 @@ module.exports = {
            */
            if (message.command === 'smart_fridge_request_completed') {
             const requestCompletedEvent = await strapi.services.utils.handleRequestCompleted(message, machine, user, transaction);
+            await strapi.services.utils.sendTransactionNotification(requestCompletedEvent.transactionEvent);
 
             // disconnect ws when final message
             await wsp.close();
             wsp.removeAllListeners()
           }
         } catch (error) {
-          strapi.log.error(error);
-          await wsp.close();
-          wsp.removeAllListeners();
-          strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+          try {
+            strapi.log.error(error);
+            await wsp.close();
+            wsp.removeAllListeners();
+            if (process.env.SLACK_ENABLE === true) {
+              await strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+            }
+          } catch (error) {
+            strapi.log.error(error);
+          }
         }
          
       });
@@ -252,9 +260,14 @@ module.exports = {
       return { ...doorOpenEvent };
 
     } catch (error) {
-      strapi.log.error(error);
-      if (process.env.SLACK_ENABLE === true) {
-        strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+      try {
+        strapi.log.error(error);
+        if (process.env.SLACK_ENABLE === true) {
+          await strapi.services.utils.sendErrorToSlack(error, machine, user, transaction);
+        }
+      } catch (error) {
+        strapi.log.error(error);
+
       }
       ctx.send({
         ok: false,

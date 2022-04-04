@@ -8,7 +8,7 @@ const { sanitizeEntity } = require('strapi-utils');
  */
 
 var self = module.exports = {
-  sendErrorToSlack: (error, machine, user, transaction) => {
+  sendErrorToSlack: async (error, machine, user, transaction) => {
     let blocks = [];
     let contextBlocks = [];
     blocks.push({
@@ -48,8 +48,18 @@ var self = module.exports = {
       type: "section",
       fields: contextBlocks
     })
-    axios.post(process.env.SLACK_WEBHOOK_URL, {
+    return await axios.post(process.env.SLACK_WEBHOOK_URL, {
       blocks: blocks
+    })
+  },
+
+  sendTransactionNotification: async (transactionEvent) => {
+    return await axios.post(process.env.WEBHOOK_URL_TRANSACTION, {
+      ...transactionEvent
+    }, {
+      headers: {
+        Authorization: `Bearer ${process.env.WEBHOOK_URL_BEARER}`
+      }
     })
   },
 

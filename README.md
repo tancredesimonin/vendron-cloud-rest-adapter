@@ -11,6 +11,7 @@ This adapter aims at providing an API REST interface to the Vendron Smart Fridge
 - Transaction history
 - Transaction events history for in-depth study (all ws events are logged and stored in the db)
 - SlackBot alerts in case of errors
+- Webhook URL in env where transaction recap is sent in real-time once finished [see details here](/NOTIFICATION.md)
 
 ## Developer Experience
 
