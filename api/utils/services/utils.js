@@ -324,13 +324,19 @@ var self = module.exports = {
 
   saveRequestCompletedEventInHistory: async (success, response, machine, user, transaction) => {
 
-    const label = success ? 'Request Completed Success' : 'Request Completed Error';
+    let label = success ? 'Request Completed Success' : 'Request Completed Error';
+    let status = success ? 'success' : 'error';
+
+    if (!success && Number(response.command_data.error_data.code) === -10) {
+      label = 'Request Completed & Canceled';
+      status = 'empty';
+    }
 
 
     const validTransactionData = await strapi.entityValidator.validateEntityUpdate(
       strapi.models.transactions,
       {
-        status: success ? 'success' : 'error',
+        status: status,
         products: success ? response.command_data.json_data.data.transaction_product : ''
       },
       { isDraft: isDraft(transaction, strapi.models.transactions) }
@@ -358,7 +364,7 @@ var self = module.exports = {
     /** check missing data */
     if ( !message.command 
       || !message.command_data
-      || !message.command_data.status
+      || (!message.command_data.status && message.command_data.status !== 0)
       || !message.command_data.json_data 
       || !message.command_data.error_data ) 
       {
@@ -375,7 +381,7 @@ var self = module.exports = {
     if (Number(message.command_data.status) !== 1) {
       success = false;
       transactionEvent = await self.saveRequestCompletedEventInHistory(success, message, machine, user, transaction)
-      throw { success,  message, machine, user, transactionEvent }
+      return { success,  message, machine, user, transactionEvent }
     }
   },
 

@@ -30,7 +30,8 @@
         "purchasing",
         "pending",
         "success",
-        "error"
+        "error",
+        "empty"
       ]
     },
     "products": {
