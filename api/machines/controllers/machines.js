@@ -236,7 +236,10 @@ module.exports = {
            */
            if (message.command === 'smart_fridge_request_completed') {
             const requestCompletedEvent = await strapi.services.utils.handleRequestCompleted(message, machine, user, transaction);
-            await strapi.services.utils.sendTransactionNotification(requestCompletedEvent.transactionEvent);
+
+            if (process.env.WEBHOOK_URL_TRANSACTION && process.env.WEBHOOK_URL_TRANSACTION.startsWith('http')) {
+              await strapi.services.utils.sendTransactionNotification(requestCompletedEvent.transactionEvent);
+            }
 
             // disconnect ws when final message
             await wsp.close();
