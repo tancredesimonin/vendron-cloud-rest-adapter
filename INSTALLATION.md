@@ -36,4 +36,10 @@ if you have many different ssh keys
 - `eval `ssh-agent.exe``
 - `ssh-add ~/.ssh/yourkeyname-id_rsa`
 
+CLI login with APIKEY
+
+```
+scalingo.exe login --api-token <yourtoken>
+```
+
 ### 
