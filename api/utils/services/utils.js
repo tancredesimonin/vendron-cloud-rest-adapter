@@ -339,7 +339,7 @@ var self = module.exports = {
       strapi.models.transactions,
       {
         status: status,
-        products: success ? response.command_data.json_data.data.transaction_product : {}
+        products: success ? response.command_data.json_data.data.transaction_product : null
       },
       { isDraft: isDraft(transaction, strapi.models.transactions) }
     );
