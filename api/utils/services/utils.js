@@ -342,7 +342,7 @@ var self = module.exports = {
       { isDraft: isDraft(transaction, strapi.models.transactions) }
     );
 
-    const entry = await strapi.query('transactions').update({id: transaction.id }, validTransactionData);
+    const entry = await strapi.query('transactions').update({ id: transaction.id }, validTransactionData);
 
     return await strapi.services['transaction-events'].create({
       transaction: transaction.id,
@@ -361,10 +361,11 @@ var self = module.exports = {
 
     strapi.log.debug("Event: Request Completed %j", message);
 
+    // {"command":"smart_fridge_request_completed","command_data":{"status":"0","error_data":{"code":"-10","message":"This VDPS transaction has been canceled & closed"},"json_data":[]},"ref":"1649839656"
     /** check missing data */
     if ( !message.command 
       || !message.command_data
-      || (!message.command_data.status && message.command_data.status !== 0)
+      || !message.command_data.status
       || !message.command_data.json_data 
       || !message.command_data.error_data ) 
       {

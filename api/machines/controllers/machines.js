@@ -160,7 +160,7 @@ module.exports = {
           currency: "EUR",
           total_amount: data.authorizedAmount ? String(data.authorizedAmount) : process.env.DEFAULT_AUTHORIZED_AMOUNT,
           payment_detail: `user:${user.id}_transaction:${transaction.id}`,
-          notification_url: 'https://8db8-2a01-e0a-200-ee00-9cf2-d647-9019-b387.ngrok.io'
+          notification_url: ''
         },
         ref: `user:${user.id.toString()}-${Date.now().toString()}`
       });
