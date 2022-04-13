@@ -326,12 +326,14 @@ var self = module.exports = {
 
     let label = success ? 'Request Completed Success' : 'Request Completed Error';
     let status = success ? 'success' : 'error';
-
     if (!success && Number(response.command_data.error_data.code) === -10) {
+      strapi.log.debug("TEST 3: in loop");
       label = 'Request Completed & Canceled';
       status = 'empty';
     }
-
+    strapi.log.debug("TEST 2: success:", success);
+    strapi.log.debug("TEST 2: label:", label);
+    strapi.log.debug("TEST 2: status:", status);
 
     const validTransactionData = await strapi.entityValidator.validateEntityUpdate(
       strapi.models.transactions,
@@ -343,7 +345,7 @@ var self = module.exports = {
     );
 
     const entry = await strapi.query('transactions').update({ id: transaction.id }, validTransactionData);
-
+    strapi.log.debug("TEST 4: transaction: %j", entry);
     return await strapi.services['transaction-events'].create({
       transaction: transaction.id,
       user: user.id,
@@ -375,13 +377,17 @@ var self = module.exports = {
     let success;
     let transactionEvent;
     if (Number(message.command_data.status) === 1) {
+      strapi.log.debug("TEST 1: command === 1");
       success = true;
       transactionEvent = await self.saveRequestCompletedEventInHistory(success, message, machine, user, transaction)
+      strapi.log.debug("TEST 1: after command");
       return { success,  message, machine, user, transactionEvent }
     }
     if (Number(message.command_data.status) !== 1) {
+      strapi.log.debug("TEST 1: command !== 1");
       success = false;
       transactionEvent = await self.saveRequestCompletedEventInHistory(success, message, machine, user, transaction)
+      strapi.log.debug("TEST 1: after command");
       return { success,  message, machine, user, transactionEvent }
     }
   },
